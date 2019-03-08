@@ -1,3 +1,5 @@
+// This package provides functions to convert ECDSA encoded
+// private and public keys to the cooked versions.
 package dececkeys
 
 import (
@@ -8,7 +10,8 @@ import (
 	"math/big"
 )
 
-// X509Key decodes an X.509 encoded subject public key.
+// X509Key decodes an X.509 encoded subject public key
+// to an ecdsa.PublicKey
 func X509Key(encoded []byte) (*ecdsa.PublicKey, error) {
 	var val publicKey
 	rest, err := asn1.Unmarshal(encoded, &val)

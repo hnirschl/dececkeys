@@ -15,6 +15,8 @@ type ecPrivKey struct {
 	PublicKey  asn1.RawValue `asn1:"optional,tag:1"`
 }
 
+// PKCS8Key decodes an ECDSA private key in PKCS #8 format to
+// an ecdsa.PrivateKey.
 func PKCS8Key(encoded []byte) (*ecdsa.PrivateKey, error) {
 	var val privateKey
 	rest, err := asn1.Unmarshal(encoded, &val)
