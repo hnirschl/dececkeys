@@ -7,10 +7,18 @@ import (
 	"fmt"
 )
 
-// PublicKey is the X509 public key info according to RFC-5480.
+// publicKey is the X509 public key info according to RFC-5480.
 type publicKey struct {
 	Algorithm algorithmIdentifier
 	PublicKey asn1.BitString
+}
+
+// privateKey is the ASN.1 structure holding the PKCS8 private key
+type privateKey struct {
+	Version    int
+	Algorithm  algorithmIdentifier
+	PrivateKey []byte
+	Attributes asn1.RawValue `asn1:"optional,tag:0"`
 }
 
 type algorithmIdentifier struct {
