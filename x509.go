@@ -34,18 +34,9 @@ func X509Key(encoded []byte) (*ecdsa.PublicKey, error) {
 }
 
 func splitECPoint(c elliptic.Curve, b []byte) (*big.Int, *big.Int, error) {
-	if len(b) < 1 || b[0] != 4 {
-		return nil, nil, errors.New("wrong ECPoint format")
-	}
-	params := c.Params()
-	l := (params.BitSize + 7) / 8
-	if len(b)-1 != 2*l {
-		return nil, nil, errors.New("wrong ECPoint format")
-	}
-	x := toInt(b[1 : l+1])
-	y := toInt(b[l+1:])
-	if !c.IsOnCurve(x, y) {
-		return nil, nil, errors.New("point is not on curve")
+	x, y := elliptic.Unmarshal(c, b)
+	if x == nil || y == nil {
+		return nil, nil, errors.New("invalid public key point")
 	}
 	return x, y, nil
 }
